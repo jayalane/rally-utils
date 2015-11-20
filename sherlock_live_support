@@ -1,0 +1,9 @@
+#! /bin/bash
+
+export PATH=/usr/bin:/bin:/x/home/caustinlane/bin/rhel5/bin
+
+pushd /x/home/caustinlane/rally
+
+/x/home/caustinlane/bin/rhel5/bin/python rally.py
+
+
