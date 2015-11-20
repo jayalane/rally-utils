@@ -36,11 +36,11 @@ def make_story(story_name, story_detail):
     proj = r.getProject()
     info = {"Workspace":   wksp.ref,
             "Project":     proj.ref,
-            "Name":        task_name + " (web intake form)",
-            "Description": task_detail}
+            "Name":        story_name + " (web intake form)",
+            "Description": story_detail}
 
-    task = r.put('Task', info)
-    return task.next.details()
+    story = r.put('Story', info)
+    return story.details()
 
 
 def make_task(task_name, task_user, task_detail, task_hours):
@@ -64,8 +64,7 @@ def make_task(task_name, task_user, task_detail, task_hours):
 
         task = r.put('Task', info)
         for b in task:
-            print b.details()
-        break
+            return b.details()
 
 
 if __name__ == '__main__':
@@ -73,4 +72,4 @@ if __name__ == '__main__':
     hours = raw_input('How many hours: ')
     task_name = raw_input('Title of task: ')
     task_detail = raw_input('One line of task detail: ')
-    make_task(task_name, getpass.getuser(), task_detail, hours)
+    print make_task(task_name, getpass.getuser(), task_detail, hours)
