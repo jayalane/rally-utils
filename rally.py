@@ -11,6 +11,7 @@ apikey = cal_state.get_secret_state('passwords', 'rally-api-key')
 
 
 def enable_http_logging():
+    """Thanks stacktrace"""
     import logging
     import httplib as http_client
     http_client.HTTPConnection.debuglevel = 1
@@ -23,11 +24,26 @@ def enable_http_logging():
 
 # enable_http_logging()   # uncomment to see HTTP layer
 server = "rally1.rallydev.com"
-project = "DT-Sherlock Services"
-todo_story = 'US5521581'
 
 
-import getpass
+import my_config
+project = my_config.project()
+todo_story = my_config.live_support()
+
+
+def make_story(story_name, story_detail):
+    r = Rally(server, apikey=apikey, project=project)
+
+    wksp = r.getWorkspace()
+    proj = r.getProject()
+    info = {"Workspace":   wksp.ref,
+            "Project":     proj.ref,
+            "Name":        task_name + " (web intake form)",
+            "Description": task_detail}
+
+    task = r.put('Task', info)
+    return task.next.details()
+
 
 def make_task(task_name, task_user, task_detail, task_hours):
 
@@ -56,6 +72,7 @@ def make_task(task_name, task_user, task_detail, task_hours):
 
 
 if __name__ == '__main__':
+    import getpass
     hours = raw_input('How many hours: ')
     task_name = raw_input('Title of task: ')
     task_detail = raw_input('One line of task detail: ')
