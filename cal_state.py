@@ -30,13 +30,11 @@ def get_state_keys(path1):
 def get_state(path1, path2=None):
     global my_cache
     body = 'Undefined'
-    print body
     if path2 is None:
         url = '/get/%s' % (path1)
     else:
         url = '/get/%s/%s' % (path1, path2)
     try:
-        print "About to call"
         body = my_http.get_url(url, my_secret_host, True)
     except Exception as inst:
         print "Secret host Problem! {{{0!r}}}".format(inst)
@@ -53,7 +51,6 @@ def get_state(path1, path2=None):
 
 
 def set_state(path1, path2, path3):
-    body = 'ok'
     body = my_http.get_url('/set/%s/%s/%s' % (path1, path2, path3),
                            my_secret_host, True)
     return body.replace('"', '')
@@ -83,7 +80,6 @@ def set_secret_state(path1, path2, path3):
     else:
         url = '/secret_set/%s/%s/%s' % (path1, path2, path3)
     try:
-        print "about to call" + url
         body = my_http.get_url(url, my_secret_host, False)  # , True)
 
     except Exception as inst:
