@@ -10,8 +10,8 @@ import json
 my_cache = {}
 
 
-# my_secret_host = "localhost:8000"
-my_secret_host = "hyperlvs80.qa.paypal.com:8007"
+import my_config
+my_secret_host = my_config.host()
 
 
 def override_secret_host(new_host):
