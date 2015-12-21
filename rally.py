@@ -24,7 +24,7 @@ def enable_http_logging():
 # enable_http_logging()   # uncomment to see HTTP layer
 server = "rally1.rallydev.com"
 project = "DT-Sherlock Services"
-todo_story = 'US517224'
+todo_story = 'US5521581'
 
 
 import getpass
