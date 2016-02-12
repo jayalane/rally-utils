@@ -17,9 +17,9 @@ def main():
     #data['password'] = sys.stdin.next()[:-1] # remove trailing "\n"
     #cal_state.set_secret_state('passwords', 'jira_login', '%s:%s' % (data['username'], data['password']))
     output = ''
-    with open('~/.ssh/id_rsa_2') as f:
+    with open('/x/home/caustinlane/.ssh/id_rsa_2') as f:
         output = f.read()
-    cal_state.set_secret_state('keys', 'pp2-key', output)
+    cal_state.set_secret_state('keys', 'pp2-key', base64.b64encode(output))
         
 # enddef main() #
 
@@ -27,4 +27,5 @@ def main():
 
 if (__name__ == '__main__'):
     main()
+    print base64.b64decode(cal_state.get_secret_state('keys', 'pp2-key'))
 # endif #
