@@ -45,7 +45,7 @@ def post_url(url, host, a_dict,
     headers['User-Agent'] = "jayalane/script"
     headers['Accept'] = "*/*"
     body = urllib.urlencode(a_dict)
-    # conn.set_debuglevel(10)
+    conn.set_debuglevel(10)
     if do_get:
         conn.request("GET", url, body, headers)
     else:
