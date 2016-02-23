@@ -84,9 +84,10 @@ def make_task(task_name, task_user, task_detail, task_hours):
 
 if __name__ == '__main__':
     print get_story('US560419')
-    os._exit()
+    os._exit(3)
     import getpass
     hours = raw_input('How many hours: ')
     task_name = raw_input('Title of task: ')
     task_detail = raw_input('One line of task detail: ')
     print make_task(task_name, getpass.getuser(), task_detail, hours)
+
