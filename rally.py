@@ -1,5 +1,6 @@
 #! /bin/env pypy
 
+import os
 import requests  # needed for pyral somehow
 from pyral import Rally
 
@@ -31,12 +32,13 @@ todo_story = my_config.live_support()
 
 def make_story(story_name, story_detail):
     r = Rally(server, apikey=apikey, project=project)
-
+    r.enableLogging('rally.log')
     wksp = r.getWorkspace()
-    proj = r.getProject()
+    proj = r.getProject('DG-Monitoring')
     info = {"Workspace":   wksp.ref,
             "Project":     proj.ref,
             "Name":        story_name + " (web intake form)",
+            "Story Type":  "New Feature",
             "Description": story_detail}
 
     story = r.put('Story', info)
@@ -48,7 +50,7 @@ def make_task(task_name, task_user, task_detail, task_hours):
     r = Rally(server, apikey=apikey, project=project)
 
     wksp = r.getWorkspace()
-    proj = r.getProject()
+    proj = r.getProject('DG-Monitoring')
 
     aa = r.get('UserStory', fetch='FormattedID', query='FormattedID = "' + todo_story + '"')
     for story in aa:
@@ -68,6 +70,14 @@ def make_task(task_name, task_user, task_detail, task_hours):
 
 
 if __name__ == '__main__':
+    r = Rally(server, apikey=apikey, project=project)
+
+    wksp = r.getWorkspace()
+    proj = r.getProject()
+    response = r.get('UserStory', fetch=True, query='FormattedID = "US542314"')
+    story1 = response.next()
+    print story1.details()
+    os._exit()
     import getpass
     hours = raw_input('How many hours: ')
     task_name = raw_input('Title of task: ')

@@ -79,7 +79,7 @@ def set_secret_state(path1, path2, path3):
     else:
         url = '/secret_set/%s/%s/%s' % (path1, path2, path3)
     try:
-        body = my_http.get_url(url, my_secret_host, True)
+        body = my_http.get_url(url, my_secret_host, False)
 
     except Exception as inst:
         print "Secret host Problem! {{{0!r}}}".format(inst)
@@ -99,7 +99,7 @@ def get_secret_state(path1, path2):
     else:
         url = '/secret_get/%s/%s' % (path1, path2)
     try:
-        body = my_http.get_url(url, my_secret_host, True)
+        body = my_http.get_url(url, my_secret_host, False)
     except Exception as inst:
         print "Secret host Problem! {{{0!r}}}".format(inst)
         if url in my_cache:
