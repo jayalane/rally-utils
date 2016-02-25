@@ -1,4 +1,5 @@
 import os
+import json
 
 import rally
 
@@ -61,6 +62,20 @@ def rally_story():
  <title>Sherlock Feature Request Experiment</title>
 </head><body><h1>Sherlock Feature Request Experiment</h1><pre>""" + stuff  + "</pre></body></html>"
 
+
+@route('/story', method='PUT')
+def rally_create():
+    try:
+        data = request.json
+        detail = data.get('detail', '')
+        name = data.get('name', '')
+    except Exception as e:
+        return {"error": repr(e)}
+    if name == "" and detail == "":
+        return {"error": "Not enough data!"}
+
+    stuff = rally.make_story(name, detail)
+    return json.dumps(stuff)
 
 if os.uname()[0] == 'Darwin':
     run(host='localhost', port=8888, server='cherrypy')
