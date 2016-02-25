@@ -4,7 +4,7 @@ import json
 import rally
 
 from bottle import run, route
-from bottle import request
+from bottle import request, response
 import bottle
 
 
@@ -66,6 +66,7 @@ def rally_story():
 @route('/story', method='PUT')
 def rally_create():
     try:
+        response.content_type = 'application/json'
         data = request.json
         detail = data.get('detail', '')
         name = data.get('name', '')
@@ -75,7 +76,7 @@ def rally_create():
         return {"error": "Not enough data!"}
 
     stuff = rally.make_story(name, detail)
-    return json.dumps(stuff)
+    return stuff
 
 if os.uname()[0] == 'Darwin':
     run(host='localhost', port=8888, server='cherrypy')
