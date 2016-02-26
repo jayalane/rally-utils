@@ -68,17 +68,33 @@ def rally_create():
     try:
         response.content_type = 'application/json'
         data = request.json
-        detail = data.get('detail', '')
-        name = data.get('name', '')
+        detail = data.get('description', '') or data.get('detail', '')
+        name = data.get('storyTitle', '') or data.get('name', '')
+        user = data.get('username', 'unknown')
     except Exception as e:
         return {"error": repr(e)}
     if name == "" and detail == "":
         return {"error": "Not enough data!"}
 
-    stuff = rally.make_story(name, detail)
-    return stuff
+    stuff = rally.make_story(name, detail, user)
+    return {'storyID': stuff['FormattedID']}
+
+
+@route('/story/:story_id', method='GET')
+def rally_get(story_id):
+    try:
+        response.content_type = 'application/json'
+    except Exception as e:
+        return {"error": repr(e)}
+    story_details = rally.get_story(story_id)
+    wrapper = {'storyID': story_id}
+    wrapper.update(story_details)
+    return json.dumps(wrapper)
 
 if os.uname()[0] == 'Darwin':
     run(host='localhost', port=8888, server='cherrypy')
 else:
     run(host=os.uname()[1], port=8888, server='cherrypy')
+
+if __name__ == "main":
+    print rally.make_story('Unit test', "Please delete")
